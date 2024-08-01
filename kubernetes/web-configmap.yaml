@@ -1,7 +1,11 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: synergychat-web-configmap
+  namespace: default
 data:
   WEB_PORT: "8080"
-  API_URL: "http://synchatapi.internal"
+  API_URL: http://synchatapi.internal
+
+

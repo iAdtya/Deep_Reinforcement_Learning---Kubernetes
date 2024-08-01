@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: synergychat-crawler
+  namespace: crawler
   labels:
     app: synergychat-crawler
-  name: synergychat-crawler
 spec:
   replicas: 1
   selector:
@@ -15,8 +16,85 @@ spec:
         app: synergychat-crawler
     spec:
       containers:
-        - image: bootdotdev/synergychat-crawler:latest
-          name: synergychat-crawler
+        - name: synergychat-crawler-1
+          image: bootdotdev/synergychat-crawler:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
           envFrom:
             - configMapRef:
                 name: synergychat-crawler-configmap
+          env:
+            - name: CRAWLER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_PORT
+                  name: synergychat-crawler-configmap
+            - name: CRAWLER_KEYWORDS
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_KEYWORDS
+                  name: synergychat-crawler-configmap
+            - name: CRAWLER_DB_PATH
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_DB_PATH
+                  name: synergychat-crawler-configmap
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /cache
+        - name: synergychat-crawler-2
+          image: bootdotdev/synergychat-crawler:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          env:
+            - name: CRAWLER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_PORT_2
+                  name: synergychat-crawler-configmap
+            - name: CRAWLER_KEYWORDS
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_KEYWORDS
+                  name: synergychat-crawler-configmap
+            - name: CRAWLER_DB_PATH
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_DB_PATH
+                  name: synergychat-crawler-configmap
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /cache
+
+        - name: synergychat-crawler-3
+          image: bootdotdev/synergychat-crawler:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          env:
+            - name: CRAWLER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_PORT_3
+                  name: synergychat-crawler-configmap
+            - name: CRAWLER_KEYWORDS
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_KEYWORDS
+                  name: synergychat-crawler-configmap
+            - name: CRAWLER_DB_PATH
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_DB_PATH
+                  name: synergychat-crawler-configmap
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /cache
+      volumes:
+        - name: cache-volume
+          emptyDir: {}

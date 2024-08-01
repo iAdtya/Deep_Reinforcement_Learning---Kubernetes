@@ -2,6 +2,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: synergychat-crawler-configmap
+  namespace: crawler
 data:
   CRAWLER_PORT: "8080"
-  CRAWLER_KEYWORDS: "love,hate,joy,sadness,anger,disgust,fear,surprise"
+  CRAWLER_PORT_2: "8081"
+  CRAWLER_PORT_3: "8082"
+  CRAWLER_KEYWORDS: love,hate,joy,sadness,anger,disgust,fear,surprise
+  CRAWLER_DB_PATH: /cache/db

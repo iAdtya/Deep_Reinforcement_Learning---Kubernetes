@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: synergychat-testcpu
+  name: synergychat-testcpu
+spec:
+  # todo replicas: 1 removed to perform Horizontal Pod Autoscaling (HPA)
+  selector:
+    matchLabels:
+      app: synergychat-testcpu
+  template:
+    metadata:
+      labels:
+        app: synergychat-testcpu
+    spec:
+      containers:
+        - image: bootdotdev/synergychat-testcpu:latest
+          name: synergychat-testcpu
+          resources:
+            limits:
+              cpu: 10m
+              memory: 32Mi

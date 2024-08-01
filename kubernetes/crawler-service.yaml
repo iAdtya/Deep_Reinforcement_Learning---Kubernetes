@@ -2,11 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: crawler-service
+  namespace: crawler
 spec:
-  type: ClusterIP
   selector:
-    app: synergychat-crawler
+    app: synergychat-crawler # Its controller will continuously scan for pods matching the app: synergychat-crawler label selector and automatically add them to its pool
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
+    - name: crawler-service
+      protocol: TCP
+      port: 80 # it listens on port 80
+      targetPort: 8080 # forwards that traffic to pods that are listening on their port 8080
+

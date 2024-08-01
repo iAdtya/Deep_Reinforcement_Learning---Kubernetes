@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: synergychat-api
   labels:
     app: synergychat-api
-  name: synergychat-api
 spec:
   replicas: 1
   selector:
@@ -15,12 +15,35 @@ spec:
         app: synergychat-api
     spec:
       containers:
-        - image: bootdotdev/synergychat-api:latest
-          name: synergychat-api
+        - name: synergychat-api
+          image: bootdotdev/synergychat-api:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          volumeMounts:
+            - name: synergychat-api-volume
+              mountPath: /persist
           env:
             - name: API_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: synergychat-api-configmap
                   key: API_PORT
-          
+                  name: synergychat-api-configmap
+            - name: API_DB_FILEPATH
+              valueFrom:
+                configMapKeyRef:
+                  key: API_DB_FILEPATH
+                  name: synergychat-api-configmap
+            - name: CRAWLER_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: CRAWLER_BASE_URL
+                  name: synergychat-api-configmap
+          # envFrom:
+          #   - configMapRef:
+          #       name: synergychat-api-configmap
+      volumes:
+        - name: synergychat-api-volume
+          persistentVolumeClaim:
+            claimName: synergychat-api-pvc

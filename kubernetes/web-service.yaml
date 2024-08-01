@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: synergychat-web-service
+  name: web-service
+  namespace: default
 spec:
   selector:
-    app: synergychat-web
+    app: synergychat-web # Its controller will continuously scan for pods matching the app: synergychat-web label selector and automatically add them to its pool
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-  type: LoadBalancer
+    - name: web-service
+      protocol: TCP
+      port: 80 # it listens on port 80
+      targetPort: 8080 # forwards that traffic to pods that are listening on their port 8080
 

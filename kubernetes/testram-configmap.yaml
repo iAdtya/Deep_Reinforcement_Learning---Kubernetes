@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: synergychat-testram-configmap
+  namespace: default
+data:
+  MEGABYTES: "10"
