@@ -274,7 +274,7 @@ spec:
 
 ## Nodes
 
-![kubernetes]("./kubernetes.png")
+![kubernetes](./kubernetes.png)
 
 - We've talked about how in a production environment, you'll have multiple nodes in your cluster. For this course, we've been using a single node cluster with minikube. The nice thing about Kubernetes is that almost everything you do with it is abstracted away from the underlying infrastructure with the kubectl CLI.
 
